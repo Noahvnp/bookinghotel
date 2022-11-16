@@ -14,3 +14,4 @@ export 'auth/auth_screen.dart';
 export 'auth/auth_manager.dart';
 
 export 'splash_screen.dart';
+export 'products/user_favorite_screen.dart';

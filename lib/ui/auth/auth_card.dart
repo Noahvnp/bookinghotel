@@ -54,7 +54,7 @@ class _AuthCardState extends State<AuthCard> {
           context,
           (error is HttpException)
               ? error.toString()
-              : 'Authentication failed');
+              : 'Đăng nhập không thành công !');
     }
 
     _isSubmitting.value = false;
@@ -75,58 +75,68 @@ class _AuthCardState extends State<AuthCard> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 8.0,
-      child: Container(
-        height: _authMode == AuthMode.signup ? 320 : 260,
-        constraints:
-            BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
-        width: deviceSize.width * 0.75,
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                _buildEmailField(),
-                _buildPasswordField(),
-                if (_authMode == AuthMode.signup) _buildPasswordConfirmField(),
-                const SizedBox(
-                  height: 20,
+    return Container(
+      width: deviceSize.width * 0.75,
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: SizedBox(
+                  height: 100,
+                  child: Text(
+                    _authMode == AuthMode.login ? 'Đăng nhập' : 'Đăng ký',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      ),
+                  ),
                 ),
-                ValueListenableBuilder<bool>(
-                  valueListenable: _isSubmitting,
-                  builder: (context, isSubmitting, child) {
-                    if (isSubmitting) {
-                      return const CircularProgressIndicator();
-                    }
-                    return _buildSubmitButton();
-                  },
-                ),
-                _buildAuthModeSwitchButton(),
-              ],
-            ),
+              ),
+              _buildEmailField(),
+              const SizedBox(
+                height: 20,
+              ),
+              _buildPasswordField(),
+              const SizedBox(
+                height: 20,
+              ),
+              if (_authMode == AuthMode.signup) _buildPasswordConfirmField(),
+              ValueListenableBuilder<bool>(
+                valueListenable: _isSubmitting,
+                builder: (context, isSubmitting, child) {
+                  if (isSubmitting) {
+                    return const CircularProgressIndicator();
+                  }
+                  return _buildSubmitButton();
+                },
+              ),
+              _buildAuthModeSwitchButton(),
+
+             
+            ],
           ),
         ),
       ),
     );
+    // );
   }
 
   Widget _buildAuthModeSwitchButton() {
     return TextButton(
       onPressed: _switchAuthMode,
       style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         textStyle: TextStyle(
           color: Theme.of(context).primaryColor,
         ),
       ),
-      child:
-          Text('${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+      child: Text(_authMode == AuthMode.login
+          ? 'Bạn chưa có tài khoản ? Đăng ký'
+          : 'Bạn đã có tài khoản ? Đăng nhập'),
     );
   }
 
@@ -135,42 +145,51 @@ class _AuthCardState extends State<AuthCard> {
       onPressed: _submit,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+        // backgroundColor: Theme.of(context).primaryColor,
+        padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
         textStyle: TextStyle(
           color: Theme.of(context).primaryTextTheme.headline6?.color,
         ),
       ),
-      child: Text(_authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP'),
+      child: Text(_authMode == AuthMode.login ? 'Đăng nhập' : 'Đăng ký'),
     );
   }
 
   Widget _buildPasswordConfirmField() {
-    return TextFormField(
-      enabled: _authMode == AuthMode.signup,
-      decoration: const InputDecoration(labelText: 'Confirm Password'),
-      obscureText: true,
-      validator: _authMode == AuthMode.signup
-          ? (value) {
-              if (value != _passwordController.text) {
-                return 'Passwords do not match!';
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: TextFormField(
+        enabled: _authMode == AuthMode.signup,
+        decoration: const InputDecoration(
+          labelText: 'Nhập lại mật khẩu',
+          border: OutlineInputBorder(),
+        ),
+        obscureText: true,
+        validator: _authMode == AuthMode.signup
+            ? (value) {
+                if (value != _passwordController.text) {
+                  return 'Mật khẩu nhập lại không đúng !';
+                }
+                return null;
               }
-              return null;
-            }
-          : null,
+            : null,
+      ),
     );
   }
 
   Widget _buildPasswordField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Password'),
+      decoration: const InputDecoration(
+        labelText: 'Mật khẩu',
+        border: OutlineInputBorder(),
+      ),
       obscureText: true,
       controller: _passwordController,
       validator: (value) {
         if (value == null || value.length < 5) {
-          return 'Password is too short!';
+          return 'Mật khẩu quá ngắn !';
         }
         return null;
       },
@@ -182,11 +201,14 @@ class _AuthCardState extends State<AuthCard> {
 
   Widget _buildEmailField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'E-Mail'),
+      decoration: const InputDecoration(
+        labelText: 'Email',
+        border: OutlineInputBorder(),
+      ),
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty || !value.contains('@')) {
-          return 'Invalid email!';
+          return 'Định dạng Email chưa đúng !';
         }
         return null;
       },

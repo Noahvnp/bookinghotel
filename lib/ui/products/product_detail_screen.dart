@@ -4,6 +4,7 @@ import 'package:myshop/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
+import '../orders/orders_manager.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
@@ -16,39 +17,9 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = context.watch<CartManager>();
     return Scaffold(
-      appBar: AppBar(
-          // title: Text(product.title),
-          ),
-      // body: SingleChildScrollView(
-      //   child: Column(
-      //     children: <Widget>[
-      //       SizedBox(
-      //         height: 300,
-      //         width: double.infinity,
-      //         child: Image.network(product.imageUrl, fit: BoxFit.cover),
-      //       ),
-      //       const SizedBox(height: 10),
-      //       Text(
-      //         '\$${product.price}',
-      //         style: const TextStyle(
-      //           color: Colors.grey,
-      //           fontSize: 20,
-      //         ),
-      //       ),
-      //       const SizedBox(height: 10),
-      //       Container(
-      //         padding: const EdgeInsets.symmetric(horizontal: 10),
-      //         width: double.infinity,
-      //         child: Text(
-      //           product.description,
-      //           textAlign: TextAlign.center,
-      //           softWrap: true,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
+      appBar: AppBar(),
       body: Stack(
         children: [
           Positioned(
@@ -192,52 +163,29 @@ class ProductDetailScreen extends StatelessWidget {
                       Expanded(
                         child: Container(
                           padding: const EdgeInsets.all(2),
-                          child: const Center(
-                            child: TextButton(
-                              child: Text(
-                                'Đặt phòng ngay',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onPressed: null,
-                              // shape: StadiumBorder(),
-                              // highlightedBorderColor: Colors.red,
-                              // borderSide:
-                              //     BorderSide(width: 2, color: Colors.red),
-                              // ),
-
-                              //                     child: IconButton(
-                              //                       icon: ,
-                              //                       onPressed: onPressed() {
-                              //   final cart = context.read<CartManager>();
-                              //   cart.addItem(product);
-                              //   ScaffoldMessenger.of(context)
-                              //     ..hideCurrentSnackBar()
-                              //     ..showSnackBar(
-                              //       SnackBar(
-                              //         content: const Text(
-                              //           'Item  added to cart',
-                              //         ),
-                              //         duration: const Duration(seconds: 2),
-                              //         action: SnackBarAction(
-                              //           label: 'UNDO',
-                              //           onPressed: () {
-                              //             cart.removeSingleItem(product.id!);
-                              //           },
-                              //         ),
-                              //       ),
-                              //     );
-                              // },
-                            ),
-                          ),
                           decoration: BoxDecoration(
                             color: Colors.lightBlue,
                             border: Border.all(color: Colors.lightBlue),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
                           ),
+                          child: Center(
+                              child: TextButton(
+                            onPressed: cart.totalAmount <= 0
+                                ? null
+                                : () {
+                                    context.read<OrdersManager>().addOrder(
+                                          cart.products,
+                                          cart.totalAmount,
+                                        );
+                                    cart.clear();
+                                  },
+                            style: TextButton.styleFrom(
+                              textStyle: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            child: const Text('ORDER NOW'),
+                          )),
                         ),
                       ),
                     ],

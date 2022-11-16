@@ -7,6 +7,7 @@ import 'package:myshop/ui/cart/cart_screen.dart';
 import 'package:myshop/ui/screens.dart';
 import 'package:provider/provider.dart';
 
+import '../shared/app_bottomnavbar.dart';
 import './products_grid.dart';
 
 import '../shared/app_drawer.dart';
@@ -27,7 +28,6 @@ class ProductsOverviewScreen extends StatefulWidget {
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   final _showOnlyFavorites = ValueNotifier<bool>(false);
   late Future<void> _fetchProducts;
-  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -41,26 +41,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: AppBar(
         title: const Text('Booking Hotel'),
         actions: <Widget>[
-          buildProductFilterMenu(),
           buildShoppingCartIcon(),
         ],
-        // backgroundColor: Colors.deepPurple,
-        // elevation: 0,
-        // leading: IconButton(
-        //   onPressed: () {},
-        //   icon: const Icon(Icons.arrow_back),
-        // ),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.search),
-        //     onPressed: () {},
-        //   ),
-        //   IconButton(
-        //     icon: const Icon(Icons.search),
-        //     onPressed: () {},
-        //   ),
-        // const SizedBox(width: 10.0)
-        // ],
       ),
       drawer: const AppDrawer(),
       body: FutureBuilder(
@@ -78,6 +60,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           );
         },
       ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 
@@ -125,60 +108,4 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ],
     );
   }
-
-  // Widget buildMainOverview() {
-  //   return Scaffold(
-  //     backgroundColor: Colors.white,
-  //     bottomNavigationBar: SalomonBottomBar(
-  //       currentIndex: _currentIndex,
-  //       onTap: (i) => setState(
-  //         () => _currentIndex = i,
-  //       ),
-  //       selectedItemColor: Colors.lightBlue,
-  //       unselectedItemColor: Colors.lightBlue.withOpacity(0.2),
-  //       selectedColorOpacity: 0.2,
-  //       margin: EdgeInsets.symmetric(
-  //           horizontal: kMediumPadding, vertical: kDefaultPadding),
-  //       items: [
-  //         SalomonBottomBarItem(
-  //           icon: Icon(
-  //             FontAwesomeIcons.house,
-  //             size: kDefaultPadding,
-  //           ),
-  //           title: Text("Home"),
-  //         ),
-  //         SalomonBottomBarItem(
-  //           icon: Icon(
-  //             FontAwesomeIcons.solidHeart,
-  //             size: kDefaultPadding,
-  //           ),
-  //           title: Text("Likes"),
-  //         ),
-  //         SalomonBottomBarItem(
-  //           icon: Icon(
-  //             FontAwesomeIcons.briefcase,
-  //             size: kDefaultPadding,
-  //           ),
-  //           title: Text("Booking"),
-  //         ),
-  //         SalomonBottomBarItem(
-  //           icon: Icon(
-  //             FontAwesomeIcons.solidUser,
-  //             size: kDefaultPadding,
-  //           ),
-  //           title: Text("Profile"),
-  //         ),
-  //       ],
-  //     ),
-  //     body: IndexedStack(
-  //       index: _currentIndex,
-  //       children: [
-  //         Container(),
-  //         Container(),
-  //         Container(),
-  //         Container(),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
