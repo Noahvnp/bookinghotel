@@ -143,11 +143,7 @@ class ProductDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Icon(
-                          Icons.favorite_border,
-                          color: Colors.lightBlue,
-                        ),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
@@ -155,6 +151,28 @@ class ProductDetailScreen extends StatelessWidget {
                           border: Border.all(
                             color: Colors.lightBlue,
                           ),
+                        ),
+                        // child: const Icon(
+                        //   Icons.favorite_border,
+                        //   color: Colors.lightBlue,
+                        // ),
+                        child: ValueListenableBuilder<bool>(
+                          valueListenable: product.isFavoriteListenable,
+                          builder: (ctx, isFavorite, child) {
+                            return IconButton(
+                              icon: Icon(
+                                product.isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                              ),
+                              color: Theme.of(context).colorScheme.secondary,
+                              onPressed: () {
+                                ctx
+                                    .read<ProductsManager>()
+                                    .toggleFavoriteStatus(product);
+                              },
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(
@@ -184,7 +202,10 @@ class ProductDetailScreen extends StatelessWidget {
                               textStyle: TextStyle(
                                   color: Theme.of(context).primaryColor),
                             ),
-                            child: const Text('ORDER NOW'),
+                            child: const Text(
+                              'ORDER NOW',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           )),
                         ),
                       ),

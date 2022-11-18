@@ -17,13 +17,25 @@ class ProductsGrid extends StatelessWidget {
         (productsManager) => showFavorites
             ? productsManager.favoriteItems
             : productsManager.items);
+    if (products.isEmpty) {
+      return Container(
+        alignment: Alignment.center,
+        child: const Text(
+          'Chưa có phòng yêu thích.\nQuay lại sau nhé!',
+          style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.lightBlue),
+        ),
+      );
+    }
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
       itemBuilder: (ctx, i) => ProductGridTile(products[i]),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
+        crossAxisCount: 1,
+        childAspectRatio: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),

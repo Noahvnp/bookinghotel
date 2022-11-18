@@ -10,13 +10,37 @@ class UserFavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Favorite'),
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.notifications,
+              color: Colors.lightBlue,
+              size: 30,
+            ),
+          )
+        ],
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              'Phòng yêu thích',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.black87,
+              ),
+            ),
+          ],
+        ),
       ),
-      drawer: const AppDrawer(),
       body: const ProductsGrid(true),
       bottomNavigationBar: const BottomNavBar(),
-      );
+    );
   }
 }
