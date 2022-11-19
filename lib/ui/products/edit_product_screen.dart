@@ -107,7 +107,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         title: const Text('Thêm Khách Sạn'),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.save),
+            icon: const Icon(Icons.add),
             onPressed: _saveForm,
           ),
         ],
@@ -124,6 +124,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   children: <Widget>[
                     buildTitleField(),
                     buildPriceField(),
+                    buildLocationField(),
                     buildDescriptionField(),
                     buildProductPreview(),
                   ],
@@ -147,6 +148,24 @@ class _EditProductScreenState extends State<EditProductScreen> {
       },
       onSaved: (value) {
         _editedProduct = _editedProduct.copyWith(title: value);
+      },
+    );
+  }
+
+  TextFormField buildLocationField() {
+    return TextFormField(
+      initialValue: _editedProduct.title,
+      decoration: const InputDecoration(labelText: 'Địa chỉ'),
+      textInputAction: TextInputAction.next,
+      autofocus: true,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Hãy điền vào địa chỉ.';
+        }
+        return null;
+      },
+      onSaved: (value) {
+        _editedProduct = _editedProduct.copyWith(location: value);
       },
     );
   }

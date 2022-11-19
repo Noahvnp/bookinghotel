@@ -17,6 +17,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final cart = context.read<CartManager>();
     final cart = context.watch<CartManager>();
     return Scaffold(
       appBar: AppBar(),
@@ -189,22 +190,28 @@ class ProductDetailScreen extends StatelessWidget {
                           ),
                           child: Center(
                               child: TextButton(
-                            onPressed: cart.totalAmount <= 0
-                                ? null
-                                : () {
-                                    context.read<OrdersManager>().addOrder(
-                                          cart.products,
-                                          cart.totalAmount,
-                                        );
-                                    cart.clear();
-                                  },
+                            onPressed: () {
+                              // cart = context.read<CartManager>();
+                              cart.addItem(product);
+                              print(cart.productCount);
+                              cart.totalAmount <= 0
+                                  ? null
+                                  : () {
+                                      context.read<OrdersManager>().addOrder(
+                                            cart.products,
+                                            cart.totalAmount,
+                                          );
+                                      cart.clear();
+                                    };
+                            },
                             style: TextButton.styleFrom(
                               textStyle: TextStyle(
                                   color: Theme.of(context).primaryColor),
                             ),
                             child: const Text(
-                              'ORDER NOW',
-                              style: TextStyle(color: Colors.white),
+                              'Đặt ngay',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
                             ),
                           )),
                         ),

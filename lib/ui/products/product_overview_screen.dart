@@ -249,6 +249,35 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 ),
               ],
             ),
+            Row(
+              children: [
+                Expanded(
+                  // height: 100,
+                  child: ListView.builder(
+                    itemCount: hotelItem.length,
+                    // scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(hotelItem[index].imageUrl),
+                        ),
+                        title: Text(hotelItem[index].title),
+                        trailing: Text(hotelItem[index].price.toString()),
+                        subtitle: Text(hotelItem[index].location),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            ProductDetailScreen.routeName,
+                            arguments: hotelItem[index].id,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
