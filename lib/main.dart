@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
             title: 'Booking Hotel ',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-                fontFamily: 'Lato',
+                fontFamily: 'Roboto',
                 colorScheme: ColorScheme.fromSwatch(
                   primarySwatch: Colors.blue,
                 ).copyWith(

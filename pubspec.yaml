@@ -39,7 +39,18 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/images/
   fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Italic.ttf
+          weight: 700
+    - family: DancingScript
+      fonts:
+        - asset: assets/fonts/dancing-script.regular.ttf
+          weight: 700
     - family: Lato
       fonts: 
         - asset: assets/fonts/Lato-Regular.ttf

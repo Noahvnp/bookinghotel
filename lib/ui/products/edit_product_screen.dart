@@ -17,6 +17,7 @@ class EditProductScreen extends StatefulWidget {
       this.product = Product(
         title: '',
         description: '',
+        location: '',
         price: 0,
         imageUrl: '',
       );
@@ -103,7 +104,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Product'),
+        title: const Text('Thêm Khách Sạn'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.save),
@@ -135,12 +136,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextFormField buildTitleField() {
     return TextFormField(
       initialValue: _editedProduct.title,
-      decoration: const InputDecoration(labelText: 'Title'),
+      decoration: const InputDecoration(labelText: 'Tên Khách Sạn'),
       textInputAction: TextInputAction.next,
       autofocus: true,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Please provide a value.';
+          return 'Hãy điền vào tên.';
         }
         return null;
       },
@@ -153,18 +154,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextFormField buildPriceField() {
     return TextFormField(
       initialValue: _editedProduct.price.toString(),
-      decoration: const InputDecoration(labelText: 'Price'),
+      decoration: const InputDecoration(labelText: 'Giá phòng'),
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Please enter a price.';
+          return 'Hãy điền vào giá.';
         }
         if (double.tryParse(value) == null) {
-          return 'Please enter a valid number.';
+          return 'Số không hợp lệ.';
         }
         if (double.parse(value) <= 0) {
-          return 'Please enter a number greater than zero';
+          return 'Hãy điền số lớn hơn 0';
         }
         return null;
       },
@@ -177,15 +178,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextFormField buildDescriptionField() {
     return TextFormField(
       initialValue: _editedProduct.description,
-      decoration: const InputDecoration(labelText: 'Description'),
+      decoration: const InputDecoration(labelText: 'Mô tả khách sạn'),
       maxLines: 3,
       keyboardType: TextInputType.multiline,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Please enter a description.';
+          return 'Hãy điền vào mô tả.';
         }
         if (value.length < 10) {
-          return 'Should be at least 10 characters long.';
+          return 'Ít nhất có 10 kí tự';
         }
         return null;
       },
@@ -213,7 +214,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ),
           ),
           child: _imageUrlController.text.isEmpty
-              ? const Text('Enter a URL')
+              ? const Text('Điền vào đường dẫn hình ảnh.')
               : FittedBox(
                   child: Image.network(
                     _imageUrlController.text,

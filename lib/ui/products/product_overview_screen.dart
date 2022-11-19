@@ -12,12 +12,7 @@ import 'package:provider/provider.dart';
 import '../shared/app_bottomnavbar.dart';
 import '../shared/category_card.dart';
 
-import 'top_right_badge.dart';
-
 enum FilterOptions { favorites, all }
-
-const double kDefaultPadding = 16.0; // standard padding using default items
-const double kMediumPadding = 24.0; // bigger default padding
 
 class ProductsOverviewScreen extends StatefulWidget {
   const ProductsOverviewScreen({super.key});
@@ -38,7 +33,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final proItem = context.watch<ProductsManager>().items;
+    final hotelItem = context.watch<ProductsManager>().items;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -80,14 +75,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // OutlinedButton.icon(
-            //   onPressed: () {},
-            //   icon: const Icon(Icons.location_on),
-            //   label: const Text(
-            //     'Cần Thơ',
-            //     style: TextStyle(color: Colors.black87),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
@@ -132,13 +119,14 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 ],
               ),
             ),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.only(right: 6, left: 6),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Khám Phá',
+                    'Khám phá',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -179,6 +167,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 ],
               ),
             ),
+            const Divider(),
             Row(
               children: const [
                 Padding(
@@ -200,17 +189,12 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   child: SizedBox(
                     height: 100,
                     child: ListView.builder(
-                      itemCount: proItem.length,
+                      itemCount: places.length,
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              ProductDetailScreen.routeName,
-                              arguments: proItem[index].id,
-                            );
-                          },
+                          onTap: () {},
                           child: Container(
                             width: 160,
                             padding: const EdgeInsets.all(20),
@@ -219,7 +203,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(15),
                               image: DecorationImage(
-                                image: NetworkImage(proItem[index].imageUrl),
+                                image: NetworkImage(places[index].imageUrl),
                                 fit: BoxFit.cover,
                                 opacity: 0.7,
                               ),
@@ -230,7 +214,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                                 Container(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    proItem[index].title,
+                                    places[index].name,
                                     style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.white,
@@ -249,6 +233,22 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 ),
               ],
             ),
+            const Divider(),
+            Row(
+              children: const [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Gợi ý khách sạn',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -259,7 +259,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           );
         },
         backgroundColor: Colors.lightBlue,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       bottomNavigationBar: const BottomNavBar(),
     );

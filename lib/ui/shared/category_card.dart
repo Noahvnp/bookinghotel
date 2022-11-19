@@ -14,7 +14,7 @@ class CategoryCard extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: InkWell(
             onTap: () {},
             child: Container(
